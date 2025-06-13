@@ -15,7 +15,6 @@ Modifica getChefBirthday(id) per intercettare eventuali errori prima di fare la 
 🎯 Bonus 2
 Utilizza la libreria dayjs per formattare la data di nascita nel formato giorno/mese/anno. */
 
-
 async function getChefBirthday(id) {
 
   let recipe
@@ -42,7 +41,8 @@ async function getChefBirthday(id) {
     throw new Error(chef.message)
   }
 
-  return chef.birthDate;
+  const formattedDate = dayjs(chef.birthDate).format("DD/MM/YYY")
+  return formattedDate
 }
 
 (async () => {
