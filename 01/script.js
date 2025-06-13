@@ -11,16 +11,32 @@
 
 
 async function getChefBirthday(id) {
+
+  let recipe
   try {
     const recipeResponse = await fetch(`https://dummyjson.com/recipes/${id}`)
-    const recipe = await recipeResponse.json()
-    const chefResponse = await fetch(`https://dummyjson.com/users/${recipe.userId}`)
-    const chef = await chefResponse.json()
+    recipe = await recipeResponse.json()
 
-    return chef.birthDate;
-  } catch(error) {
-    throw new Error("Errore recupero data di nascita dello chef")
+
+  } catch (error) {
+    throw new Error(`Non recupero recipe id ${id}`)
   }
+  if (recipe.message) {
+    throw new Error(recipe.message)
+  }
+
+  let chef
+  try {
+    const chefResponse = await fetch(`https://dummyjson.com/users/${recipe.userId}`)
+    chef = await chefResponse.json()
+  } catch(error) {
+    throw new Error(`Non recupero lo chef id ${iaa}`)
+  }
+  if(chef.message) {
+    throw new Error(chef.message)
+  }
+  
+  return chef.birthDate;
 }
 
 (async () => {
@@ -31,5 +47,5 @@ async function getChefBirthday(id) {
     console.error(error)
   }
   console.log("fine codice");
-  
+
 })();
